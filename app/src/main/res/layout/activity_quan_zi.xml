@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodequanzi.view.QuanZiActivity">
+
+    //我的  的Fragment  的  点击我的圈子的 布局
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="#898282"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="我的圈子"
+            />
+
+        <ImageView
+            android:id="@+id/img_delete_wdqz_wdf"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/delete"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/xlv_qz_wdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+
+</LinearLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    //Home首页的  魔力时尚 adapter  item布局
+    //卡片式布局
+    <android.support.v7.widget.CardView
+        tools:targetApi="lollipop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="5dp"
+        >
+        //android:background="@drawable/bg_circle" 画的sheap
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="2dp"
+            android:padding="5dp"
+            >
+            //图
+            <ImageView
+                android:id="@+id/img_mlss_syf"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                >
+                //介绍
+                <TextView
+                    android:id="@+id/txtname_mlss_syf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#b6b2b2"
+                    android:textSize="15dp"
+                    android:text="产品介绍"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_alignParentBottom="true"
+                    >
+
+                    //手机价格
+                    <TextView
+                        android:id="@+id/txtprice_mlss_syf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#f90404"
+                        android:textSize="20dp"
+                        android:text="￥111999.00"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="5dp"
+                        />
+                    //手机销售量
+                    <TextView
+                        android:id="@+id/txtnumber_mlss_syf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#bcb8b8"
+                        android:textSize="15dp"
+                        android:text="已售900件"
+                        android:layout_alignParentRight="true"
+                        />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

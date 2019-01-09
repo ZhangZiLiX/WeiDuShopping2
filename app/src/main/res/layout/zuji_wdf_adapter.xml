@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_circle_zdf"
+    android:padding="15dp"
+    >
+
+    //我的  的Fragment  的  点击我的足迹的 adapter的布局
+
+    //图片
+    <ImageView
+        android:id="@+id/img_zuji_adapter_wdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"
+        />
+
+    //介绍
+    <TextView
+        android:id="@+id/txt_title_zuji_adapter_wdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="#787777"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:text="标题"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        >
+        //价格  和  浏览次数
+
+        <TextView
+            android:id="@+id/txt_price_zuji_adapter_wdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#f00"
+            android:text="￥830"
+            />
+
+        <TextView
+            android:id="@+id/txt_see_zuji_adapter_wdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#787777"
+            android:layout_alignParentRight="true"
+            android:text="已浏览10次"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        >
+         //时间
+        <TextView
+            android:id="@+id/txt_time_zuji_adapter_wdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#787777"
+            android:layout_alignParentRight="true"
+            android:text="2018-12-12 12:58"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

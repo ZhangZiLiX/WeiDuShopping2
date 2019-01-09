@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+//这是Home的首页Fragment界面布局
+
+    <LinearLayout
+        android:id="@+id/ll_shopall_shyf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        //使用Scrollview进行整体滑动
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            >
+            //ScrollView中只能有一个最大的布局控件
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                //1 头部搜索框
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#f00"
+                    android:weightSum="6"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        >
+                        //菜单
+                        <ImageView
+                            android:id="@+id/img_syf_menu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/common_btn_menu"
+                            android:layout_alignParentLeft="true"
+                            android:layout_gravity="center"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        >
+                        //2  搜索框
+                        <android.support.v7.widget.SearchView
+                            android:id="@+id/searchview_syf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            app:iconifiedByDefault="false"
+                            app:queryHint="输入搜索内容"
+                            android:background="@drawable/bg_search"
+                            ></android.support.v7.widget.SearchView>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        >
+                        //3  搜索按钮
+
+                        <TextView
+                            android:id="@+id/txt_syf_sousuo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/txt_syf_back"
+                            android:gravity="center"
+                            android:text="搜索"
+                            android:textColor="#000"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:id="@+id/txt_syf_back"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:text="返回"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="16dp"
+                            android:visibility="gone"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                //2 搜索框下方  的数据展示
+                <RelativeLayout
+                    android:id="@+id/rl_showdata_syf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    //下面是商品和  轮播图
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        //1 轮播图  android:clipChildren="false"必须要写的
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="240dp"
+                            android:clipChildren="false"
+                            android:background="@drawable/bg_banner"
+                            android:orientation="horizontal"
+                            >
+
+                            <android.support.v4.view.ViewPager
+                                android:id="@+id/vp_syf"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="10dp"
+                                android:visibility="gone"
+                                ></android.support.v4.view.ViewPager>
+
+                            <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="10dp"
+                                android:id="@+id/indicator_line2"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                app:vpi_default_color="#e49191"
+                                app:vpi_distance="14dp"
+                                app:vpi_distanceType="BY_DISTANCE"
+                                app:vpi_indicatorType="CIRCLE_LINE"
+                                app:vpi_length="14dp"
+                                app:vpi_radius="3dp"
+                                android:visibility="gone"
+                                />
+
+                            //方法二 使用Xbanner实现画廊效果
+
+                            <com.stx.xhb.xbanner.XBanner
+                                android:id="@+id/xbanner"
+                                android:layout_width="400dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center"
+                                app:isClipChildrenMode="true"></com.stx.xhb.xbanner.XBanner>
+
+                        </RelativeLayout>
+
+
+                        //商品数据  展示
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="5dp"
+                            >
+                            //热销新品
+                            <TextView
+                                android:id="@+id/txt_rrxp_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#4d8fe6"
+                                android:textSize="30dp"
+                                android:text="热销新品"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@mipmap/bg_rxxp_syf"
+                                />
+                            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                                android:id="@+id/xlv_rxxp_syf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                >
+
+                            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+                            //魔力时尚
+                            <TextView
+                            android:id="@+id/txt_mlss_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#4d8fe6"
+                            android:textSize="30dp"
+                            android:text="魔力时尚"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@mipmap/bg_mlss_syf"
+                            />
+                            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                                android:id="@+id/xlv_mlss_syf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                >
+                            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+                            //品质生活
+                            <TextView
+                                android:id="@+id/txt_pzsh_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#4d8fe6"
+                                android:textSize="30dp"
+                                android:text="品质生活"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:background="@mipmap/bg_pzsh_syf"
+                                />
+                            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                                android:id="@+id/xlv_pzsh_syf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                >
+
+                            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    //点击菜单按钮  就进行展示第一行
+                    //需要一开始隐藏
+                    <LinearLayout
+                        android:id="@+id/lv_syf_top_rightmenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@mipmap/bg_one"
+                        android:visibility="gone"
+                        >
+
+                        //第一行商品标题
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="6"
+                            android:layout_marginTop="25dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/txt_nanzhuang_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="男装"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_nvzhuang_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="女装"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_nvxie_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="女鞋"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_chenshan_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="衬衫"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_meizhuanghufu_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="美妆护肤"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/txt_shoujishuma_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="#fff"
+                                android:textSize="15sp"
+                                android:text="手机数码"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+
+                        //下方图
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="5"
+                            android:layout_marginTop="5dp"
+                            >
+                            <ImageView
+                                android:id="@+id/img_maoyi_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/top_dadimaoyi_syf"
+                                android:layout_gravity="center"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_kuzhuang_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/top_kuzhuang_syf"
+                                android:layout_gravity="center"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_qunzhuang_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/top_qunzhuang_syf"
+                                android:layout_gravity="center"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_waitao_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/top_waitao_syf"
+                                android:layout_gravity="center"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_weiyi_syf"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/top_weiyi_syf"
+                                android:layout_gravity="center"
+                                />
+                        </LinearLayout>
+                        //图片下的文字提示类型  无点击事件
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="5"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="15dp"
+                            >
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="#fff"
+                                android:text="打底毛衣"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="#fff"
+                                android:text="裤装"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="#fff"
+                                android:text="裙装"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="#fff"
+                                android:text="外套"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="#fff"
+                                android:text="卫衣"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                //当点击搜索  进行搜索时，将搜索到的数据展示出来 默认隐藏
+                <LinearLayout
+                    android:id="@+id/ll_searchdata_syf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    >
+                    //搜索展示  默认隐藏
+                    <com.jcodecraeer.xrecyclerview.XRecyclerView
+                        android:id="@+id/xlv_searchdata_syf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+                     //没有搜索到商品时  展示  默认隐藏
+                     <LinearLayout
+                         android:id="@+id/ll_searchdata0_syf"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical"
+                         android:layout_marginTop="100dp"
+                         android:layout_gravity="center"
+                         android:gravity="center"
+                         android:visibility="gone"
+                         >
+                         <ImageView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:src="@mipmap/meiyoushop"
+                             />
+                         <TextView
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:textSize="20dp"
+                             android:textColor="#9c9b9b"
+                             android:layout_gravity="center"
+                             android:gravity="center"
+                             android:text="抱歉,没有找到商品额~"
+                             />
+                     </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_xingqing_shyf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="25dp"
+                >
+
+                <ImageView
+                    android:id="@+id/simple_xiangqing_shyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_margin="10dp"
+                    />
+                //首页详情轮播图
+                //app:isClipChildrenMode="true"
+                <com.stx.xhb.xbanner.XBanner
+                    android:id="@+id/xbanner_xq_syf"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    ></com.stx.xhb.xbanner.XBanner>
+                //详情
+                <TextView
+                    android:id="@+id/txt_title_xiangqing_shyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="35dp"
+                    android:textColor="#000"
+                    android:text="标题"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_jieshao_xiangqing_shyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="#686666"
+                    android:text="介绍"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_price_xiangqing_shyf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="#fa0202"
+                    android:text="￥6666"
+                    android:layout_marginTop="5dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

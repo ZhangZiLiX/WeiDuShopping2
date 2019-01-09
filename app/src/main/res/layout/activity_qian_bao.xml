@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodeqianbao.QianBaoActivity">
+
+    //我的Fragment界面  我的钱包
+
+    //余额
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@mipmap/bg_qianbao"
+        >
+        //背景图
+        <TextView
+            android:id="@+id/txt_title_yue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="#000"
+            android:text="余额"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="17dp"
+            />
+        //余额数  有点击事件
+        <TextView
+            android:id="@+id/txt_yue_qianbao_wdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:textColor="#000"
+            android:text="0.00"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_below="@+id/txt_title_yue"
+            />
+    </RelativeLayout>
+
+    //消费金额   消费时间  都没有点击事件
+    <LinearLayout
+        android:id="@+id/ll_txttitle_on"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="260dp"
+        android:background="#fffdfd"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:textColor="#9c9b9b"
+            android:text="消费金额"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:textColor="#9c9b9b"
+            android:text="|"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:textColor="#9c9b9b"
+            android:text="消费时间"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+    </LinearLayout>
+    <View
+        android:layout_below="@+id/ll_txttitle_on"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#a6a6a6"
+        />
+
+</RelativeLayout>

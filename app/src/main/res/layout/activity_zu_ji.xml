@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodezuji.view.ZuJiActivity">
+
+    //我的  的Fragment  的  点击我的足迹的 布局
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="#898282"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="我的足迹"
+            />
+    </RelativeLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/xlv_zj_wdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+    <TextView
+        android:id="@+id/txt_zanwuliulan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25dp"
+        android:textColor="#f00"
+        android:text="暂无浏览"
+        />
+
+
+</LinearLayout>

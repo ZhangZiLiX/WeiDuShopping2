@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    //我的界面的  登录注册按钮
+    <stroke android:width="2dp"
+            android:color="#00f"/>
+
+    <corners android:radius="20dp"/>
+
+    <gradient android:startColor="#00f"
+              android:endColor="#f00"/>
+
+</shape>

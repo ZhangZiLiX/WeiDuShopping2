@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    //我的订单的布局
+
+    //头部展示功能
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_circle_zdf"
+        >
+        //头部  图标
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/img_quanbudingdan_ddf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/quanbudd_ddf"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:id="@+id/img_daifukuan_ddf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/daifuk_ddf"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:id="@+id/img_daishouhuo_ddf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/daishouh_ddf"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:id="@+id/img_daipingjia_ddf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/daipingj_ddf"
+                android:layout_gravity="center"
+                />
+            <ImageView
+                android:id="@+id/img_yiwancheng_ddf"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/yiwanc_ddf"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+         //头部  图标介绍文字 无点击功能
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:textColor="#7c7b7b"
+                android:text="全部订单"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:textColor="#7c7b7b"
+                android:text="待付款"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:textColor="#7c7b7b"
+                android:text="待收货"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:textColor="#7c7b7b"
+                android:text="待评价"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:textColor="#7c7b7b"
+                android:text="已完成"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    //下面进vp切换
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_zhangdan_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

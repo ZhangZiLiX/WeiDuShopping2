@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    //账单Fragment界面
+
+    //头部功能区的背景圆角设置
+    <stroke android:width="2dp"
+        android:color="#b3b0b0"/>
+    <solid android:color="#fff"/>
+    <corners android:radius="12dp"/>
+
+    <!--<corners android:topLeftRadius="25dp"
+        android:topRightRadius="25dp"
+        />-->
+
+</shape>

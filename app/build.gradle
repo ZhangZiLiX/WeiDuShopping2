@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+
+//短信验证设置 添加插件
+apply plugin: 'com.mob.sdk'
+//使用数据库GreenDao
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.bwie.weidushopping"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+
+            //打包签名 必须将下面属性的false改为true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //解决Fresco图片处理框架和OKHttp网络请求构架模式冲突
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion '26.0.1'
+                }
+            }
+        }
+    }
+
+    //GreenDao数据库使用
+    //GreenDao路径配置
+    greendao {
+        //数据库的schema版本，也可以理解为数据库版本号
+        schemaVersion 1
+        //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+        daoPackage 'com.bwie.weidushopping.db'
+        //设置DaoMaster、DaoSession、Dao目录
+        targetGenDir 'src/main/java'
+    }
+
+}
+
+//短信验证设置
+// 在MobSDK的扩展中注册SMSSDK的相关信息
+MobSDK {
+    appKey "d580ad56b4b5"
+    appSecret "7fcae59a62342e7e2759e9e397c82bdd"
+
+    SMSSDK {}
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    //gson等第一次导入的依赖
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:0.14.1'
+    implementation 'com.jcodecraeer:xrecyclerview:1.3.2'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    //首页Fragment界面轮播图第三方导入依赖
+    implementation 'com.github.LinweiJ:ViewPagerIndicator:0.1.0'
+    //banne
+    implementation 'com.youth.banner:banner:1.4.10'
+    //方法二  使用XBanner实现画廊效果
+    //XBanner
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.xiaohaibin:XBanner:1.6.1'
+
+    //GreenDao的依赖
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+    //卡片式布局
+    implementation 'com.android.support:cardview-v7:27.1.1' //gradle导入CardView
+
+
+}
