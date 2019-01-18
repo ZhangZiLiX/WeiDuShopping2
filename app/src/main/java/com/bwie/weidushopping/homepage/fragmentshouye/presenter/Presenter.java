@@ -41,7 +41,9 @@ public class Presenter {
      * http://172.17.8.100/small/commodity/v1/findCommodityByKeyword?keyword=%E6%89%8B%E6%9C%BA&page=3&count=5
      */
     public void getKeySearchDataP(String keyword,int page){
-        String url = "http://172.17.8.100/small/commodity/v1/findCommodityByKeyword?count=5&page=";
+        //http://mobile.bwstudent.com
+        //http://172.17.8.100/small/commodity/v1/findCommodityByKeyword?count=5&page
+        String url = "http://mobile.bwstudent.com/small/commodity/v1/findCommodityByKeyword?count=5&page=";
         //拼接
         url = url+page+"&keyword="+keyword;
         //定义一个泛型
@@ -74,7 +76,9 @@ public class Presenter {
         //定义一个泛型
         Type type = new TypeToken<BannerBean>(){}.getType();
         //注册  调用Post请求方式
-        mModel.getDataM("http://172.17.8.100/small/commodity/v1/bannerShow", new ICallBack() {
+        //http://mobile.bwstudent.com
+        //http://172.17.8.100/small/commodity/v1/bannerShow
+        mModel.getDataM("http://mobile.bwstudent.com/small/commodity/v1/bannerShow", new ICallBack() {
             @Override
             public void Success(Object o) {
                //成功返回数据
@@ -94,7 +98,9 @@ public class Presenter {
         //定义一个泛型
         Type type = new TypeToken<ShopBean>(){}.getType();
         //注册  调用Post请求方式
-        mModel.getDataM("http://172.17.8.100/small/commodity/v1/commodityList", new ICallBack() {
+        //http://mobile.bwstudent.com
+        //http://172.17.8.100/small/commodity/v1/commodityList
+        mModel.getDataM("http://mobile.bwstudent.com/small/commodity/v1/commodityList", new ICallBack() {
             @Override
             public void Success(Object o) {
                 //成功返回数据
@@ -119,7 +125,9 @@ public class Presenter {
         //定义一个泛型
         Type type = new TypeToken<ShopBean>(){}.getType();
         //注册  调用Post请求方式
-        mModel.getDataM("http://172.17.8.100/small/commodity/v1/commodityList", new ICallBack() {
+        //http://mobile.bwstudent.com
+        //http://172.17.8.100/small/commodity/v1/commodityList
+        mModel.getDataM("http://mobile.bwstudent.com/small/commodity/v1/commodityList", new ICallBack() {
             @Override
             public void Success(Object o) {
                 //成功返回数据
@@ -142,9 +150,10 @@ public class Presenter {
     public void getPZSHDataP(){
         //定义一个泛型
         Type type = new TypeToken<ShopBean>(){}.getType();
-
+         //http://mobile.bwstudent.com
+        //http://172.17.8.100/small/commodity/v1/commodityList
         //注册  调用Post请求方式
-        mModel.getDataM("http://172.17.8.100/small/commodity/v1/commodityList", new ICallBack() {
+        mModel.getDataM("http://mobile.bwstudent.com/small/commodity/v1/commodityList", new ICallBack() {
             @Override
             public void Success(Object o) {
                 //成功返回数据
@@ -165,7 +174,9 @@ public class Presenter {
 
     //4品质生活的数据请求方法
     public void getXiangQingDataP(int commodityId,int userId,String sessionId){
-        String url = "http://172.17.8.100/small/commodity/v1/findCommodityDetailsById?commodityId=";
+        //String url = "http://172.17.8.100/small/commodity/v1/findCommodityDetailsById?commodityId=";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/commodity/v1/findCommodityDetailsById?commodityId=";
         url = url+commodityId;
         //定义一个泛型
         Type type = new TypeToken<XiangQingBean>(){}.getType();
