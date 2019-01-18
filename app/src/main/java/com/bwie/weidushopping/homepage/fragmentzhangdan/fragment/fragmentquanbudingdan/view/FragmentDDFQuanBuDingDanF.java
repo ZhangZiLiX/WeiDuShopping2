@@ -39,7 +39,7 @@ public class FragmentDDFQuanBuDingDanF extends Fragment implements IView {
     private String mIsuserid;
     private String mIsSessionId;
     private Handler handler = new Handler();//加载刷新handler
-    private int page = 0;//刷新页数
+    private int page = 1;//刷新页数
     private boolean isloding;//是否加载
     private int mUserid;
     private String mSessionid;

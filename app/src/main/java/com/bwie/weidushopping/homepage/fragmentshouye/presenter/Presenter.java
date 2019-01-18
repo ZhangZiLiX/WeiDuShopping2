@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * date:2018/12/6
@@ -202,18 +203,28 @@ public class Presenter {
 
 
     //3同步购物车
-    public void getAddCarP(String sessionid,int userid,int commodityid,int count){
+    public void getAddCarP(String sessionid,int userid,Map<String,String> map){
+        //只加入一条
+        String url ="http://mobile.bwstudent.com/small/order/verify/v1/syncShoppingCart";
+       /* String str="[";
+        str+="{\"commodityId\":"+commodityid+",\"count\":"+1+"},";
+        String substring = str.substring(0, str.length() - 1);
+        substring+="]";
+        Map<String,String> map = new HashMap<>();
+        map.put("data",substring);
+*/
+
         //得到数据进行map创建存储
-        HashMap<String,String> map = new HashMap<>();
+        /*HashMap<String,String> map = new HashMap<>();
         map.put("commodityId",commodityid+"");
-        map.put("count",count+"");
+        map.put("count",count+"");*/
 
         //定义一个泛型
         Type type = new TypeToken<AddCar>(){}.getType();
         //注册  调用Post请求方式
         //http://172.17.8.100/small/order/verify/v1/syncShoppingCart
         //http://mobile.bwstudent.com
-        mModel.putDataM("http://mobile.bwstudent.com/small/order/verify/v1/syncShoppingCart", userid, sessionid, map, new ICallBack() {
+        mModel.putDataM(url, userid, sessionid, map, new ICallBack() {
             @Override
             public void Success(Object o) {
                 AddCar addCar = (AddCar) o;

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bwie.weidushopping.R;
@@ -28,7 +29,10 @@ public class DaiShouHuoDingDanAdapter extends XRecyclerView.Adapter<DaiShouHuoDi
 
     //接口回调
     public interface onBtnDSHClickListener{
+        //确认订单
         void onDingDanChange(int id);
+        //删除订单
+        void onDeleteDingDanChange(int id);
     }
     private onBtnDSHClickListener mOnBtnClickListener;
     public void setOnBtnDSHClickListener(onBtnDSHClickListener listener){
@@ -73,7 +77,7 @@ public class DaiShouHuoDingDanAdapter extends XRecyclerView.Adapter<DaiShouHuoDi
                 @Override
                 public void onClick(View v) {
                    // Toast.makeText(mContext,"取消订单成功",Toast.LENGTH_SHORT).show();
-                    mOnBtnClickListener.onDingDanChange(detailListBean.getOrderDetailId());
+                    mOnBtnClickListener.onDeleteDingDanChange(detailListBean.getOrderDetailId());
                 }
             });
             //确认订单的回调

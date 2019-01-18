@@ -48,6 +48,8 @@ public class DiZhiActivity extends BaseActionBar implements View.OnClickListener
         setContentView(R.layout.activity_di_zhi);
         //1 初始化控件
         initView();
+        //6 接收sp传值sessionid
+        initSharedPrefrence();
         //2 初始化Dao层
         initGreenDao();
         //3 xlv的 List  和 adapter设置
@@ -56,8 +58,6 @@ public class DiZhiActivity extends BaseActionBar implements View.OnClickListener
         setDeleteUserAddress();
         //5 开始查询数据库 展示地址信息
         setSelectUderAddress();
-        //6 接收sp传值sessionid
-        initSharedPrefrence();
         //6 初始化Presenter
         initPresenter();
 
@@ -104,6 +104,13 @@ public class DiZhiActivity extends BaseActionBar implements View.OnClickListener
                 mAddressDao.deleteByKey((long) id);
                 mAddressDao.deleteByKey((long) id);
                 Toast.makeText(DiZhiActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mAddNewAddressXLVAdapter.setDZOnClickListener(new AddNewAddressXLVAdapter.DZOnClickListener() {
+            @Override
+            public void onChanger(int id) {
+                Toast.makeText(DiZhiActivity.this,"社会默认地址成功",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -218,12 +225,12 @@ public class DiZhiActivity extends BaseActionBar implements View.OnClickListener
 
 
                 //加入数据库
-                /*mInsert = mAddressDao.insert(mNewsAddress);
+                mInsert = mAddressDao.insert(mNewsAddress);
                 if(mInsert!=0){
                     Toast.makeText(DiZhiActivity.this,"添加地址成功",Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(DiZhiActivity.this,"添加地址失败",Toast.LENGTH_LONG).show();
-                }*/
+                }
             }
         }
     }

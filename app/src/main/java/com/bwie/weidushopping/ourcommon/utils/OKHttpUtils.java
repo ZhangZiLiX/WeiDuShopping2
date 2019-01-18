@@ -245,9 +245,9 @@ public class OKHttpUtils {
         //4 在单例模式中 初始化一个OK对象
         //5 始化一个request对象  并设置相关属性
         Request request = new Request.Builder()
-                .post(formBody)
                 .addHeader("userId",userId+"")
                 .addHeader("sessionId",sessionId)
+                .post(formBody)
                 .url(url)
                 .build();
         //6 通过OK对象  和  request对象  得到一个call
@@ -332,7 +332,7 @@ public class OKHttpUtils {
 
     //使用put方式  进行提交
     //定义一个网路请求数据的   put() 方法
-    public void getDataPut(String url,int isuserid,String sessionId, HashMap<String,String> map, final ICallBack callBack, final Type type){
+    public void getDataPut(String url,int isuserid,String sessionId, Map<String,String> map, final ICallBack callBack, final Type type){
         //1 创建FormBody的对象，把表单添加到formBody中
         FormBody.Builder builder = new FormBody.Builder();
         //2 判断集合对象不为空
@@ -371,7 +371,6 @@ public class OKHttpUtils {
                     });
                 }
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //成功  通过Handler发送到主线程
@@ -390,6 +389,41 @@ public class OKHttpUtils {
                         }
                     });
                 }
+            }
+        });
+    }
+
+    //删除方法
+    public void deleteDataU(String url, int userId, String sessionId, final ICallBack iCallBack, final Type type){
+        Request request = new Request.Builder()
+                .delete()
+                .addHeader("userId", userId+"")
+                .addHeader("sessionId", sessionId)
+                .url(url)
+                .build();
+        Log.e("URL_",request.body().toString());
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        iCallBack.Failder(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String json = response.body().string();
+                Gson gson = new Gson();
+                final Object o = gson.fromJson(json, type);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        iCallBack.Success(o);
+                    }
+                });
             }
         });
     }

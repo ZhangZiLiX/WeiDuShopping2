@@ -48,9 +48,15 @@ public class Model {
     }
 
     //3 定义一个Model层的Put请求方法
-    public void putDataM(String url,int isuserid,String sessionId,HashMap<String, String> map, ICallBack callBack, Type type){
+    public void putDataM(String url,int isuserid,String sessionId,Map<String, String> map, ICallBack callBack, Type type){
         //调用网络请求工具类
         OKHttpUtils.getInstance().getDataPut(url,isuserid,sessionId,map,callBack,type);
+    }
+
+    //删除
+    public void deleteDataM(String url,int isuserid,String sessionId, ICallBack callBack, Type type){
+        //调用网络请求工具类
+        OKHttpUtils.getInstance().deleteDataU(url,isuserid,sessionId,callBack,type);
     }
 
 

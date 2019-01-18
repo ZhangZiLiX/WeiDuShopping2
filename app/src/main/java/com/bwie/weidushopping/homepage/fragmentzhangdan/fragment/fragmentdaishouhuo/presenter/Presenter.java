@@ -64,6 +64,34 @@ public class Presenter {
         },type);
     }
 
+    //4 删除订单的数据请求方法
+    public void getDeleteDingDanP(int userId,String sessionId,String orderId){
+        //http://172.17.8.100/small/order/verify/v1/findOrderListByStatus?status=
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/order/verify/v1/deleteOrder";
+        url = url+orderId;
+        //定义一个泛型
+        Type type = new TypeToken<QuanBuDingDanBean>(){}.getType();
+
+        // 调用Post请求方式
+        mModel.deleteDataM(url, userId, sessionId, new ICallBack() {
+            @Override
+            public void Success(Object o) {
+                //成功返回数据
+                QuanBuDingDanBean quanBuDingDanBean = (QuanBuDingDanBean) o;
+                if(quanBuDingDanBean!=null){
+                    mIView.getQuanBuDingDanDataWDZDF(quanBuDingDanBean.getOrderList());
+                }
+            }
+
+            @Override
+            public void Failder(Exception e) {
+                //请求失败
+                mIView.failder(e);
+            }
+        },type);
+    }
+
 
     //解除耦合
     public void datach(){

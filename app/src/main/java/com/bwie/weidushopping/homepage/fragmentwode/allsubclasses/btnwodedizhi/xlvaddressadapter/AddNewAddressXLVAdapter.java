@@ -66,6 +66,14 @@ public class AddNewAddressXLVAdapter extends XRecyclerView.Adapter<AddNewAddress
             }
         });
 
+        //设置默认地址
+        holder.mTxtMoRenDress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mlistener.onChanger((int) mList.get(position).getId());
+            }
+        });
+
 
     }
 
@@ -80,13 +88,16 @@ public class AddNewAddressXLVAdapter extends XRecyclerView.Adapter<AddNewAddress
         public TextView txtNewuserdiquBtnwdWdf;
         public TextView txtNewuserxiangxiaddBtnwdWdf;
         public TextView txtNewuseryzbianmaBtnwdWdf;
-        public ViewHolder(View itemView) {
+         private final TextView mTxtMoRenDress;
+
+         public ViewHolder(View itemView) {
             super(itemView);
             txtNewusernameBtnwdWdf = itemView.findViewById(R.id.txt_newusername_btnwd_wdf);//收货人
             txtNewuserphoneBtnwdWdf = itemView.findViewById(R.id.txt_newuserphone_btnwd_wdf);//收货人手机号
             txtNewuserdiquBtnwdWdf = itemView.findViewById(R.id.txt_newuserdiqu_btnwd_wdf);//地区
             txtNewuserxiangxiaddBtnwdWdf = itemView.findViewById(R.id.txt_newuserxiangxiadd_btnwd_wdf);//详情地址
             txtNewuseryzbianmaBtnwdWdf = itemView.findViewById(R.id.txt_newuseryzbianma_btnwd_wdf);//邮政编码
+             mTxtMoRenDress = itemView.findViewById(R.id.txt_morendress);//设置默认地址
         }
     }
 }

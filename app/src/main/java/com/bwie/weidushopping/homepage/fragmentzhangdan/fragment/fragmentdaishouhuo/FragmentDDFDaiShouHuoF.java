@@ -74,9 +74,15 @@ public class FragmentDDFDaiShouHuoF extends Fragment implements IView {
         mDaiShouHuoDingDanAdapter.setOnBtnDSHClickListener(new DaiShouHuoDingDanAdapter.onBtnDSHClickListener() {
             @Override
             public void onDingDanChange(int id) {
+                //确认订单
                 MyUtils.toastShow(getActivity(),"收货成功");
-                //
-               // mPresenter.getAddCarP(mSessionid,mUserid,commodityId,1);
+
+            }
+
+            @Override
+            public void onDeleteDingDanChange(int id) {
+                //取消订单
+
             }
         });
 

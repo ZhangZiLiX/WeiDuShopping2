@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
+import com.bwie.weidushopping.homepage.fragmentgouwuche.bean.GouWuCheBean;
+import com.bwie.weidushopping.homepage.fragmentgouwuche.presenter.GouWuChePresenter;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.banner.BannerAdapter;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.keysearchselect.KeySearchSelectAdapte;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.molishishang.MoLiAdapte;
@@ -42,7 +44,9 @@ import com.lwj.widget.viewpagerindicator.ViewPagerIndicator;
 import com.stx.xhb.xbanner.XBanner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * date:2018/12/6
@@ -50,7 +54,7 @@ import java.util.List;
  * function:  这是滑动的fragment  首页界面
  */
 
-public class FragmentShouYe extends Fragment implements IView, View.OnClickListener {
+public class FragmentShouYe extends Fragment implements IView, com.bwie.weidushopping.homepage.fragmentgouwuche.view.IView, View.OnClickListener {
 
     //轮播图
     private int FLAG = 1001;
@@ -141,6 +145,9 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
     private String mSessionid;
     private TextView txtJiaru;
     private TextView txtFanhui;
+    private int commodityIds;
+    private GouWuChePresenter mGouWuChePresenter;
+    private Map<String, String> mMap;
 
     @Nullable
     @Override
@@ -222,7 +229,6 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
      * <p>
      * 通过接口回调
      */
-    int commodityId;
     private void setXRVItemOnClick() {
         //1 热销条目点击
         mReXiaoAdapte.setRXSPOnClickListener(new ReXiaoAdapte.RXSPOnClickListener() {
@@ -231,7 +237,6 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
                     mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
-                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -252,7 +257,6 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
                     mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
-                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -272,7 +276,7 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
                     mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
-                    commodityId = id;
+
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -291,7 +295,7 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
                     mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
-                    commodityId = id;
+
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -333,12 +337,19 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
      * //3 初始化Presenter层
      */
     private void initPresenter() {
+        //查询购物车
+        mGouWuChePresenter = new GouWuChePresenter();
+        mGouWuChePresenter.attach(this);
+        mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
+
         mPresenter = new Presenter();
         mPresenter.attach(this);
         mPresenter.getBannerDataP();//轮播图请求数据方法
         mPresenter.getRXXPDataP();//热销新品数据请求方法
         mPresenter.getMLSSDataP();//魔力时尚
         mPresenter.getPZSHDataP();//品质生活
+
+
     }
 
     /**
@@ -594,7 +605,7 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
 
             case R.id.txt_jiaru://点击加入购物车
                  //调用Presenter的加入购物车方法
-                 mPresenter.getAddCarP(mSessionid,mUserid,commodityId,1);
+                 mPresenter.getAddCarP(mSessionid,mUserid,mMap);
 
                 break;
 
@@ -830,6 +841,11 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
             mTxtTitleXiangQingShyf.setText(xiangQingBean.getResult().getCategoryName());
             mTxtJieShaoXiangQingShyf.setText(xiangQingBean.getResult().getCommodityName());
             mTxtPriceXiangQingShyf.setText("价格:￥" + xiangQingBean.getResult().getPrice());
+
+            //加入购物车
+            int commodityId = xiangQingBean.getResult().getCommodityId();
+            commodityIds = commodityId;
+
         }
     }
 
@@ -840,9 +856,34 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
      * */
     @Override
     public void AddCar(AddCar addCar) {
-        Toast.makeText(getActivity(),addCar.getMessage(),Toast.LENGTH_SHORT);
+        Toast.makeText(getActivity(),addCar.getMessage(),Toast.LENGTH_SHORT).show();
     }
 
+    //查询购物车
+    @Override
+    public void getSelectShoppingData(List<GouWuCheBean.ResultBean> list) {
+        String str="[";
+            for (int i=0;i<list.size();i++){
+                if (commodityIds==list.get(i).getCommodityId()){
+                    int count = list.get(i).getCount();
+                    count++;
+                    list.get(i).setCount(count);
+                    break;
+                }/*else if (i==list.size()-1){
+                    list.add(new GouWuCheBean.ResultBean(commodityIds,1));
+                    break;
+                }*/
+            }
+            for (GouWuCheBean.ResultBean sopCar_bean : list){
+                str+="{\"commodityId\":"+sopCar_bean.getCommodityId()+",\"count\":"+sopCar_bean.getCount()+"},";
+            }
+            String substring = str.substring(0, str.length() - 1);
+            substring+="]";
+            mMap = new HashMap<>();
+            mMap.put("data",substring);
+            //mSopDetailPresenter.getPut(map,mUserId,mSessionId);
+            mPresenter.getAddCarP(mSessionid,mUserid, mMap);
+    }
 
     @Override
     public void failder(Exception e) {
@@ -857,6 +898,9 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
         //presenter层
         if (mPresenter != null) {
             mPresenter.datach();
+        }
+        if (mGouWuChePresenter != null) {
+            mGouWuChePresenter.datach();
         }
 
         //handler销毁

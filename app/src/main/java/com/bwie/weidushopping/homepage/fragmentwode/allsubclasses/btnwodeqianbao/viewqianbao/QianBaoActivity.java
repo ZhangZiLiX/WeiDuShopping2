@@ -31,12 +31,12 @@ public class QianBaoActivity extends AppCompatActivity implements IViewQianBao {
         setContentView(R.layout.activity_qian_bao);
         //1 初始化控件
         initView();
+        //2 初始化sp
+        initSP();
         //4 初始化list 和  adapter
         initListAndAdapter();
         //3 初始化Presenter
         initPresenter();
-        //2 初始化sp
-        initSP();
 
     }
 

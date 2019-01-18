@@ -1,5 +1,6 @@
 package com.bwie.weidushopping.homepage.fragmentgouwuche.view;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -111,6 +112,13 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
         mGouWuCheAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
+        mGouWuCheAdapter.notifyDataSetChanged();
+    }
+
     /**
      * //4 初始化list 和 adapter
      * */
@@ -159,6 +167,8 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
         mXlvGWCShopper.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+                mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
+                mGouWuCheAdapter.notifyDataSetChanged();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -169,7 +179,8 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
 
             @Override
             public void onLoadMore() {
-
+                mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
+                mGouWuCheAdapter.notifyDataSetChanged();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
