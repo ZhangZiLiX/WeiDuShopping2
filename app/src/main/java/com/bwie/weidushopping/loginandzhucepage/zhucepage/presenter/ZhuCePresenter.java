@@ -33,7 +33,9 @@ public class ZhuCePresenter {
     //创建一个方法，进行调用Model层的网络数据请求
     //http://172.17.8.100/small/user/v1/register?phone=15910975491&pwd=123456
     public void getZhuCeDataP(String phone,String pwd){
-        String url = "http://172.17.8.100/small/user/v1/register";
+        //String url = "http://172.17.8.100/small/user/v1/register";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/user/v1/register";
         //得到数据进行map创建存储
         HashMap<String,String> map = new HashMap<>();
         map.put("phone",phone);

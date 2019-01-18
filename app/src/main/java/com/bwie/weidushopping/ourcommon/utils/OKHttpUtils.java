@@ -10,6 +10,7 @@ import com.bwie.weidushopping.ourcommon.inter.ICallBack;
 import com.bwie.weidushopping.ourcommon.interceptor.MyInterceptor;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -19,8 +20,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -122,12 +126,12 @@ public class OKHttpUtils {
     }
 
     //定义一个购物车 网路请求数据的   get() 方法
-    public void getGouWuCheData(String url,String userId,String sessionId, final ICallBack callBack, final Type type){
+    public void getGouWuCheData(String url,int userId,String sessionId, final ICallBack callBack, final Type type){
         //1 在单例模式中 初始化一个OK对象
         //2 始化一个request对象  并设置相关属性
         Request request = new Request.Builder()
                 .get()
-                .addHeader("userId", userId)
+                .addHeader("userId", userId+"")
                 .addHeader("sessionId",sessionId)//添加请求头参数
                 .url(url)
                 .build();
@@ -226,7 +230,7 @@ public class OKHttpUtils {
 
 
     //定义一个网路请求数据的   post() 方法  加入头参
-    public void getDataTouCanPostU(String url,HashMap<String,String> map,String userId,String sessionId, final ICallBack callBack, final Type type){
+    public void getDataTouCanPostU(String url,HashMap<String,String> map,int userId,String sessionId, final ICallBack callBack, final Type type){
         //1 创建FormBody的对象，把表单添加到formBody中
         FormBody.Builder builder = new FormBody.Builder();
         //2 判断集合对象不为空
@@ -242,7 +246,7 @@ public class OKHttpUtils {
         //5 始化一个request对象  并设置相关属性
         Request request = new Request.Builder()
                 .post(formBody)
-                .addHeader("userId",userId)
+                .addHeader("userId",userId+"")
                 .addHeader("sessionId",sessionId)
                 .url(url)
                 .build();
@@ -285,9 +289,50 @@ public class OKHttpUtils {
         });
     }
 
+    //上传头像 post
+    public void getHeadPostImage(String url, File img, int userId, String sessionId, final ICallBack iCallBack, final Type type){
+        MultipartBody responseBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", img.getName(), RequestBody.create(MediaType.parse("image/png"), img))
+                .build();
+
+        Request request = new Request.Builder()
+                .post(responseBody)
+                .addHeader("userId", userId+"")
+                .addHeader("sessionId", sessionId)
+                .url(url)
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        iCallBack.Failder(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String json = response.body().string();
+                Gson gson = new Gson();
+                final Object o = gson.fromJson(json, type);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        iCallBack.Success(o);
+                    }
+                });
+            }
+        });
+    }
+
+
     //使用put方式  进行提交
     //定义一个网路请求数据的   put() 方法
-    public void getDataPut(String url,String isuserid,String sessionId, HashMap<String,String> map, final ICallBack callBack, final Type type){
+    public void getDataPut(String url,int isuserid,String sessionId, HashMap<String,String> map, final ICallBack callBack, final Type type){
         //1 创建FormBody的对象，把表单添加到formBody中
         FormBody.Builder builder = new FormBody.Builder();
         //2 判断集合对象不为空
@@ -305,7 +350,7 @@ public class OKHttpUtils {
         //4 在单例模式中 初始化一个OK对象
         //5 始化一个request对象  并设置相关属性
         Request request = new Request.Builder()
-                .addHeader("userId", isuserid)
+                .addHeader("userId", isuserid+"")
                 .addHeader("sessionId",sessionId)//添加请求头参数  这个id是随时变更的
                 .put(formBody)//使用Put请求方式  值需要改这里即可
                 .url(url)

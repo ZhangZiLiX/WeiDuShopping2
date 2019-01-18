@@ -27,9 +27,6 @@ allprojects {
         mavenCentral()
         //首页Fragment界面轮播图第三方导入依赖
         maven { url "https://jitpack.io" }
-
-
-        maven { url 'https://jitpack.io' }
     }
 }
 

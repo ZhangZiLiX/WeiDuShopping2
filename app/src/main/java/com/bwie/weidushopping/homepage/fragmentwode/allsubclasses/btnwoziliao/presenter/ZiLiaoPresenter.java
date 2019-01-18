@@ -1,5 +1,6 @@
 package com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.presenter;
 
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.HeadImageBean;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.UpdatePasswordBean;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.view.IView;
 import com.bwie.weidushopping.loginandzhucepage.loginpage.bean.LoginBean;
@@ -7,6 +8,7 @@ import com.bwie.weidushopping.ourcommon.inter.ICallBack;
 import com.bwie.weidushopping.ourcommon.model.Model;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
@@ -30,10 +32,12 @@ public class ZiLiaoPresenter {
 
     //创建一个方法，进行调用Model层的网络数据请求
 
-    //登录的方法
+    //修改密码 put 方法
     //http://172.17.8.100/small/user/verify/v1/modifyUserPwd
-    public void getUpdatePassword(String oldPwd,String isuserid,String sessionId,String newPwd){
-        String url = "http://172.17.8.100/small/user/verify/v1/modifyUserPwd";
+    public void getUpdatePassword(String oldPwd,int isuserid,String sessionId,String newPwd){
+        //http://172.17.8.100/small/user/verify/v1/modifyUserPwd
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/user/verify/v1/modifyUserPwd";
         //得到数据进行map创建存储
         HashMap<String,String> map = new HashMap<>();
         map.put("oldPwd",oldPwd);
@@ -57,6 +61,30 @@ public class ZiLiaoPresenter {
             }
         },type);
     }
+
+    //上传头像的方法
+    public void getHeadPostDataP(int isuserid, String sessionId, File img){
+       // String url = "http://172.17.8.100/small/user/verify/v1/modifyHeadPic";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/user/verify/v1/modifyHeadPic";
+        //定义一个泛型
+        Type type = new TypeToken<UpdatePasswordBean>(){}.getType();
+
+        //注册  调用Post请求方式
+        mModel.postHeadImageM(url, img, isuserid, sessionId, new ICallBack() {
+            @Override
+            public void Success(Object o) {
+                HeadImageBean headImageBean = (HeadImageBean) o;
+                mIView.goHeadimageI(headImageBean);
+            }
+
+            @Override
+            public void Failder(Exception e) {
+                mIView.failder(e);
+            }
+        },type);
+    }
+
 
     //解除耦合
     public void datach(){

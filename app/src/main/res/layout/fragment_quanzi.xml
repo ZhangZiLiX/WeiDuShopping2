@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
+
 
     //圈子的Fragment布局
     <com.jcodecraeer.xrecyclerview.XRecyclerView
@@ -13,4 +13,14 @@
         android:layout_marginTop="20dp"
         ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/img_fabu_qzf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+
+</RelativeLayout>

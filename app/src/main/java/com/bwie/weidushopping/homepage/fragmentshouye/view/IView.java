@@ -1,5 +1,6 @@
 package com.bwie.weidushopping.homepage.fragmentshouye.view;
 
+import com.bwie.weidushopping.homepage.fragmentshouye.bean.AddCar;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.BannerBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.KeySeacherBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.ShopBean;
@@ -30,6 +31,8 @@ public interface IView {
 
     //详情  http://172.17.8.100/small/commodity/v1/findCommodityDetailsById?commodityId=5
     void XiangQingData(XiangQingBean xiangQingBean);
+    //同步购物车
+    void AddCar(AddCar addCar);
 
     //登录失败进行提示
     void failder(Exception e);

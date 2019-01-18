@@ -32,8 +32,10 @@ public class GouWuChePresenter {
 
     //查询购物车的方法  需要头参数
     //http://172.17.8.100/small/order/verify/v1/findShoppingCart
-    public void getSelectShoppingDataP(String userId,String sessionId){
-        String url = "http://172.17.8.100/small/order/verify/v1/findShoppingCart";
+    public void getSelectShoppingDataP(int userId,String sessionId){
+        //String url = "http://172.17.8.100/small/order/verify/v1/findShoppingCart";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/order/verify/v1/findShoppingCart";
 
         //定义一个泛型
         Type type = new TypeToken<GouWuCheBean>(){}.getType();

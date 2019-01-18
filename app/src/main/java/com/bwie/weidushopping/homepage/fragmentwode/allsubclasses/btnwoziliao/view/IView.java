@@ -1,5 +1,6 @@
 package com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.view;
 
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.HeadImageBean;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.UpdatePasswordBean;
 import com.bwie.weidushopping.loginandzhucepage.loginpage.bean.LoginBean;
 
@@ -13,6 +14,8 @@ public interface IView {
 
     //修改密码的接口
     void updatePassword(UpdatePasswordBean updatePasswordBean);
+    //上传头像
+    void goHeadimageI(HeadImageBean headImageBean);
     void failder(Exception e);
 
 }

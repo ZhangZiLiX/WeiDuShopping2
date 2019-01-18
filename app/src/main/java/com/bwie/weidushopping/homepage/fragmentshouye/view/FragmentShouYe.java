@@ -1,6 +1,5 @@
 package com.bwie.weidushopping.homepage.fragmentshouye.view;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.banner.BannerAdapter;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.keysearchselect.KeySearchSelectAdapte;
@@ -30,10 +30,10 @@ import com.bwie.weidushopping.homepage.fragmentshouye.adapter.molishishang.MoLiA
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.pinzhishenghuo.PinZhiAdapte;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.rexiaoxinpin.ReXiaoAdapte;
 import com.bwie.weidushopping.homepage.fragmentshouye.adapter.xiangqing.XiangQingAdapter;
+import com.bwie.weidushopping.homepage.fragmentshouye.bean.AddCar;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.BannerBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.KeySeacherBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.ShopBean;
-import com.bwie.weidushopping.homepage.fragmentshouye.bean.XQLunBoBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.XiangQingBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.presenter.Presenter;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -137,7 +137,10 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
     private XBanner xbanner;
     private TextView txtSyfBack;
     private XBanner xbannerXqSyf;
-    private XQLunBoBean mXqLunBoBean;
+    private int mUserid;
+    private String mSessionid;
+    private TextView txtJiaru;
+    private TextView txtFanhui;
 
     @Nullable
     @Override
@@ -165,10 +168,10 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
      * //设置SP
      */
     private void setSP(View view) {
-        //1 得到用户登录成功后 穿过来的 userid和  sessionid
-        mIsonelogin = getActivity().getSharedPreferences("isonelogin", Context.MODE_PRIVATE);
-        mIsuserid = mIsonelogin.getString("isuserid", "");
-        mIsSessionId = mIsonelogin.getString("isSessionId", "");
+
+        //通过工具类  得到存储的userid  和  sessionid
+        mUserid = (int) MyUtils.getData(getActivity(), "userid", 0);
+        mSessionid = (String) MyUtils.getData(getActivity(), "sessionid", "");
 
     }
 
@@ -219,6 +222,7 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
      * <p>
      * 通过接口回调
      */
+    int commodityId;
     private void setXRVItemOnClick() {
         //1 热销条目点击
         mReXiaoAdapte.setRXSPOnClickListener(new ReXiaoAdapte.RXSPOnClickListener() {
@@ -226,7 +230,8 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
             public void onChanger(int id) {
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
-                    mPresenter.getXiangQingDataP(id, mIsuserid, mIsSessionId);
+                    mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
+                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -246,7 +251,8 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
             public void onChanger(int id) {
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
-                    mPresenter.getXiangQingDataP(id, mIsuserid, mIsSessionId);
+                    mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
+                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -265,7 +271,8 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
             public void onChanger(int id) {
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
-                    mPresenter.getXiangQingDataP(id, mIsuserid, mIsSessionId);
+                    mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
+                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -283,7 +290,8 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
             public void onChanger(int id) {
                 if (isxiangqing) {//展示不同界面  如果是true
                     //调用P层 请求详情 的方法
-                    mPresenter.getXiangQingDataP(id, mIsuserid, mIsSessionId);
+                    mPresenter.getXiangQingDataP(id, mUserid, mSessionid);
+                    commodityId = id;
                     mLlXiangQingShYF.setVisibility(View.VISIBLE);  //说明点击后要展示详情
                     mLlShopAllShYF.setVisibility(View.GONE);
                     isxiangqing = false;
@@ -557,6 +565,10 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
         txtSyfBack.setOnClickListener(this);
         xbannerXqSyf = (XBanner) view.findViewById(R.id.xbanner_xq_syf);
         xbannerXqSyf.setOnClickListener(this);
+        txtJiaru = (TextView) view.findViewById(R.id.txt_jiaru);
+        txtJiaru.setOnClickListener(this);
+        txtFanhui = (TextView) view.findViewById(R.id.txt_fanhui);
+        txtFanhui.setOnClickListener(this);
     }
 
 
@@ -577,6 +589,19 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
                 } else {
                     lvSyfTopRightmenu.setVisibility(View.GONE);
                 }
+
+                break;
+
+            case R.id.txt_jiaru://点击加入购物车
+                 //调用Presenter的加入购物车方法
+                 mPresenter.getAddCarP(mSessionid,mUserid,commodityId,1);
+
+                break;
+
+            case R.id.txt_fanhui://点击返回 从详情
+                mLlXiangQingShYF.setVisibility(View.GONE);  //说明点击后要展示详情
+                mLlShopAllShYF.setVisibility(View.VISIBLE);
+                isxiangqing = false;
 
                 break;
 
@@ -801,27 +826,21 @@ public class FragmentShouYe extends Fragment implements IView, View.OnClickListe
         if (xiangQingBean != null) {
             String message = xiangQingBean.getMessage();
             //Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
-           //方法二  使用XBanner实现画廊效果
-           /* if (xiangQingBean != null) {
-                //传值(List<?>) mXqLunBoBean
-                xbannerXqSyf.setData((List<?>) mXqLunBoBean, null);
-                //设置adapter
-                xbannerXqSyf.loadImage(new XBanner.XBannerAdapter() {
-                    @Override
-                    public void loadBanner(XBanner banner, Object model, View view, int position) {
-                        //类型强zhuan
-                        BannerBean.ResultBean bannerBean = (BannerBean.ResultBean) model;
-                        //绑定数据
-                        Glide.with(getActivity()).load(bannerBean.getImageUrl()).into((ImageView) view);
-                        xbannerXqSyf.setPageChangeDuration(1000);
-                    }
-                });
-            }*/
             Glide.with(this).load("http://172.17.8.100/images/small/commodity/nz/wy/7/2.jpg").into(mSimpleXiangQingShyf);
             mTxtTitleXiangQingShyf.setText(xiangQingBean.getResult().getCategoryName());
             mTxtJieShaoXiangQingShyf.setText(xiangQingBean.getResult().getCommodityName());
             mTxtPriceXiangQingShyf.setText("价格:￥" + xiangQingBean.getResult().getPrice());
         }
+    }
+
+    /**
+     * 同步购物车
+     *
+     *
+     * */
+    @Override
+    public void AddCar(AddCar addCar) {
+        Toast.makeText(getActivity(),addCar.getMessage(),Toast.LENGTH_SHORT);
     }
 
 

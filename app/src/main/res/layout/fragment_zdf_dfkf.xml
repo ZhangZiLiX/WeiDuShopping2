@@ -8,14 +8,21 @@
     //我的账单的Fragment    的 代付款 Fragment布局
 
     <TextView
+        android:id="@+id/txtZanwudingdan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="25dp"
         android:textColor="#f00"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="暂无订单"
         />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/xlv_quanbudingdan_wdddf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
 
 </LinearLayout>

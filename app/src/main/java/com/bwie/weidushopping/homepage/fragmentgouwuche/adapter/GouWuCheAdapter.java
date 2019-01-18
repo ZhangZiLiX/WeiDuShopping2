@@ -69,11 +69,16 @@ public class GouWuCheAdapter extends XRecyclerView.Adapter<GouWuCheAdapter.ViewH
         holder.cbProduct.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //点击复选框选中商品
                 resultBean.setIschecked(isChecked);
+
+                //计算这款商品总价格
                 double totalPrice = resultBean.getPrice() * resultBean.getCount();
-                if(!isChecked){
+
+                if(!isChecked){ //没有选中就归零
                     totalPrice = -totalPrice;
                 }
+                //通过接口传递给外面
                 mOnItemClickListener.onCheckedChange(isAllSeleted(),totalPrice);
             }
         });
@@ -104,10 +109,6 @@ public class GouWuCheAdapter extends XRecyclerView.Adapter<GouWuCheAdapter.ViewH
     public void updateChecked(boolean ischecked) {
         for (int i = 0; i < mList.size(); i++) {
             GouWuCheBean.ResultBean resultBean = mList.get(i);
-            /*if(resultBean.isIschecked()!=ischecked){
-                resultBean.setIschecked(ischecked);
-                notifyItemChanged(i,resultBean);
-            }*/
             resultBean.setIschecked(ischecked);
         }
         notifyDataSetChanged();

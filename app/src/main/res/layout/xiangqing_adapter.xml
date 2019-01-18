@@ -1,56 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="10dp"
     >
-        <ImageView
-            android:id="@+id/simple_xiangqing_shyf"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_margin="10dp"
-            />
 
+    //Home首页的  热销新品 adapter  item布局  下面两行是必须添加的  加载最大的布局中
+    //xmlns:app="http://schemas.android.com/apk/res-auto"
+    //xmlns:tools="http://schemas.android.com/tools"
+    //卡片式布局
+    //注意点  如果在RecyclerView或XRL中设置的了条目点击事件（接口回调），就不能在在这里为CardView设置点击事件了，否则会不能使用任何点击事件
+    //android:clickable="true"
+    //android:focusable="true"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="5dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="5dp"
             >
-            //详情
             <TextView
-                android:id="@+id/txt_title_xiangqing_shyf"
+                android:id="@+id/txt_time_shyf"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="35dp"
-                android:textColor="#000"
-                android:text="标题"
-                android:layout_marginBottom="20dp"
+                android:layout_height="50dp"
+                android:textSize="15dp"
+                android:textColor="#9b9999"
+                android:text="时间"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 />
 
-            <TextView
-                android:id="@+id/txt_jieshao_xiangqing_shyf"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:textColor="#686666"
-                android:text="介绍"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_margin="10dp"
-                />
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:id="@+id/txt_price_xiangqing_shyf"
+                <ImageView
+                    android:id="@+id/img_xiangqing_shyf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    >
+                    //详情
+                    <TextView
+                        android:id="@+id/txt_title_xiangqing_shyf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="35dp"
+                        android:textColor="#000"
+                        android:text="标题"
+                        android:layout_marginBottom="20dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/txt_jieshao_xiangqing_shyf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:textColor="#686666"
+                        android:text="介绍"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_margin="10dp"
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <TextView
+                            android:id="@+id/txt_price_xiangqing_shyf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="25dp"
+                            android:textColor="#fa0202"
+                            android:text="￥6666"
+                            android:layout_marginTop="5dp"
+                            android:layout_alignParentLeft="true"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_num_xiangqing_shyf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="25dp"
+                            android:textColor="#fa0202"
+                            android:text="0"
+                            android:layout_marginTop="5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:textColor="#fa0202"
-                android:text="￥6666"
-                android:layout_marginTop="5dp"
-                />
-  </LinearLayout>
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/txt_cancle_shyf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="25sp"
+                    android:textColor="#fffefe"
+                    android:text="取消订单"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/bg_dingdan"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_yes_shyf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="25sp"
+                    android:textColor="#fffefe"
+                    android:text="确认订单"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_dingdan"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>

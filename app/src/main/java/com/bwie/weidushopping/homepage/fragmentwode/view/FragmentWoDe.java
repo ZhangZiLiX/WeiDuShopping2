@@ -1,6 +1,5 @@
 package com.bwie.weidushopping.homepage.fragmentwode.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,11 +15,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.application.MyApplication;
 import com.bwie.weidushopping.db.NewsAddressDao;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodedizhi.view.DiZhiActivity;
-import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodeqianbao.QianBaoActivity;
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodeqianbao.viewqianbao.QianBaoActivity;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodequanzi.view.QuanZiActivity;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodezuji.view.ZuJiActivity;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.view.MyMessageActivity;
@@ -59,6 +59,8 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
     private SharedPreferences mIsonelogintwo;
     private SharedPreferences mIsUserMessageSP;
     private NewsAddressDao mAddressDao;
+    private String mHeadpic;
+    private String mImageString;
 
     @Nullable
     @Override
@@ -68,11 +70,22 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
         initView(view);
         //2 点击事件监听
         setOnClickListeners(view);
-        //3 登录的p层的重新调用
-        initPresenter();
         //4 从登录界面sp存储中得到密码等数据
         initSp();
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //判空
+        if(data!=null && !data.equals("")){
+            //5 从本地的SP中  得到上传时的头像  进行头像更新  在我的资料中上传头像修改资料的
+            getBitmapFromSharedPreferences();
+        }else{
+            MyUtils.toastShow(getActivity(),"上传为空");
+        }
+
     }
 
     /**
@@ -92,10 +105,14 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
      * //5 从本地的SP中  得到上传时的头像  进行头像更新
      */
     private void getBitmapFromSharedPreferences() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("testSP", MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("testSP", MODE_PRIVATE);
         //第一步:取出字符串形式的Bitmap
         String imageString = sharedPreferences.getString("image", "");
-        //第二步:利用Base64将字符串转换为ByteArrayInputStream
+        mHeadpic = (String) MyUtils.getData(getActivity(), "headpic", ""); //得到用户头像路径
+
+        Uri uri = Uri.parse(mHeadpic);
+        imgTouxiangWdf.setImageURI(uri);*/
+       /* //第二步:利用Base64将字符串转换为ByteArrayInputStream
         byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
         if (byteArray.length == 0) {//使用默认头像
             imgTouxiangWdf.setImageResource(R.mipmap.ic_launcher);
@@ -104,16 +121,23 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
             //第三步:利用ByteArrayInputStream生成Bitmap
             Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
             imgTouxiangWdf.setImageBitmap(bitmap);//更新上传的头像
+        }*/
+
+        //使用的是sp本地文件更换头像
+        mUpdateTouXiangSP = getActivity().getSharedPreferences("testSP", MODE_PRIVATE);
+        mImageString = mUpdateTouXiangSP.getString("image", "");
+
+        //第二步:利用Base64将字符串转换为ByteArrayInputStream
+        byte[] byteArray = Base64.decode(mImageString, Base64.DEFAULT);
+        if (byteArray.length == 0) {
+            imgTouxiangWdf.setImageResource(R.mipmap.ic_launcher);
+        } else {
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+
+            //第三步:利用ByteArrayInputStream生成Bitmap
+            Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
+            imgTouxiangWdf.setImageBitmap(bitmap);
         }
-
-    }
-
-    /**
-     * //3 登录的p层的重新调用
-     */
-    private void initPresenter() {
-        mLoginPresenter = new LoginPresenter();
-        mLoginPresenter.attach(this);
 
     }
 
@@ -134,25 +158,11 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
         mIsUserMessageSP = getActivity().getSharedPreferences("isUserMessageSP", MODE_PRIVATE);
         String phone = mIsUserMessageSP.getString("isUserMessagePhone", "");
         String password = mIsUserMessageSP.getString("isUserMessagePassword", "");
-        //重新调用登录P层的方法
-        mLoginPresenter.getLoginDataP(phone, password);
+
         ////添加地址的Dao层
         mAddressDao = MyApplication.getInstances().getDaoSession().getNewsAddressDao();
 
-        //因为上传头像接口有问题  所以使用的是sp本地文件更换头像
-        mUpdateTouXiangSP = getActivity().getSharedPreferences("testSP", MODE_PRIVATE);
-        String imageString = mUpdateTouXiangSP.getString("image", "");
-        //第二步:利用Base64将字符串转换为ByteArrayInputStream
-        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
-        if (byteArray.length == 0) {
-            imgTouxiangWdf.setImageResource(R.mipmap.ic_launcher);
-        } else {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 
-            //第三步:利用ByteArrayInputStream生成Bitmap
-            Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-            imgTouxiangWdf.setImageBitmap(bitmap);
-        }
     }
 
     /**
@@ -244,13 +254,13 @@ public class FragmentWoDe extends Fragment implements View.OnClickListener, IVie
      */
     @Override
     public void LoginBean(LoginBean loginBean) {
-        if (loginBean != null) {
+        /*if (loginBean != null) {
             if (loginBean.getMessage().equals("登录成功")) {
                 //得到头像  使用Fresco进行赋值
                 Uri uri = Uri.parse(loginBean.getResult().getHeadPic());
                 imgTouxiangWdf.setImageURI(uri);
             }
-        }
+        }*/
     }
 
     @Override

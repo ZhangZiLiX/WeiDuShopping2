@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.homepage.fragmentgouwuche.adapter.GouWuCheAdapter;
 import com.bwie.weidushopping.homepage.fragmentgouwuche.bean.GouWuCheBean;
@@ -49,6 +50,8 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
     private GouWuCheAdapter mGouWuCheAdapter;
     private Handler handler = new Handler();
     private double mtotalPrice;
+    private int mUserid;
+    private String mSessionid;
 
     @Nullable
     @Override
@@ -90,7 +93,6 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
             }
         });
 
-
         //全选按钮监听
         cbTotalSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +107,7 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        mGouWuChePresenter.getSelectShoppingDataP(mIsuserid,mIsSessionId);//调用查询购物车方法
+        mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
         mGouWuCheAdapter.notifyDataSetChanged();
     }
 
@@ -126,6 +128,10 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
         mIsonelogin = getActivity().getSharedPreferences("isonelogin", MODE_PRIVATE);
         mIsuserid = mIsonelogin.getString("isuserid", "");
         mIsSessionId = mIsonelogin.getString("isSessionId", "");//得到不断变化的sessionid
+
+        //通过工具类  得到存储的userid  和  sessionid
+        mUserid = (int) MyUtils.getData(getActivity(), "userid", 0);
+        mSessionid = (String) MyUtils.getData(getActivity(), "sessionid", "");
     }
 
     /**
@@ -134,7 +140,7 @@ public class FragmentGouWuChe extends Fragment implements IView, View.OnClickLis
     private void initPresenter() {
         mGouWuChePresenter = new GouWuChePresenter();
         mGouWuChePresenter.attach(this);
-        mGouWuChePresenter.getSelectShoppingDataP(mIsuserid,mIsSessionId);//调用查询购物车方法
+        mGouWuChePresenter.getSelectShoppingDataP(mUserid,mSessionid);//调用查询购物车方法
     }
 
     /**

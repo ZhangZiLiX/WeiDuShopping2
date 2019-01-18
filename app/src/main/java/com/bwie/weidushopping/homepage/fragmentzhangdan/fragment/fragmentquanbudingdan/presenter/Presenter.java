@@ -37,13 +37,15 @@ public class Presenter {
      *
      */
     //4 全部订单的数据请求方法
-    public void getQuanBuDingDanDataP(int status,int page,int count,String userId,String sessionId){
-        String url = "http://172.17.8.100/small/order/verify/v1/findOrderListByStatus?status=";
+    public void getQuanBuDingDanDataP(int status,int page,int count,int userId,String sessionId){
+        //String url = "http://172.17.8.100/small/order/verify/v1/findOrderListByStatus?status=";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/order/verify/v1/findOrderListByStatus?status=";
         url = url+status+"&page="+page+"&count="+count;
         //定义一个泛型
         Type type = new TypeToken<QuanBuDingDanBean>(){}.getType();
 
-        //注册  调用Post请求方式
+        // 调用Post请求方式
         mModel.getGouWuCheDataM(url, userId, sessionId, new ICallBack() {
             @Override
             public void Success(Object o) {

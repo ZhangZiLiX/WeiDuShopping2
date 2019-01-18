@@ -8,12 +8,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.homepage.fragmentquanzi.adapter.QuanZiAdapter;
 import com.bwie.weidushopping.homepage.fragmentquanzi.bean.DianZanBean;
+import com.bwie.weidushopping.homepage.fragmentquanzi.bean.FaBuBean;
 import com.bwie.weidushopping.homepage.fragmentquanzi.bean.QuanZiBean;
-import com.bwie.weidushopping.homepage.fragmentquanzi.presenter.Presenter;
 import com.bwie.weidushopping.homepage.fragmentquanzi.view.IView;
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodequanzi.adapter.WoDeQuanZiAdapter;
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodequanzi.bean.WoDeQuanZiBean;
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodequanzi.presenter.Presenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -24,12 +28,14 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
     private ImageView imgDeleteWdqzWdf;
     private XRecyclerView xlvQzWdf;
 
-    private List<QuanZiBean.ResultBean> mList;
-    private QuanZiAdapter mQuanZiAdapter;
+    private List<WoDeQuanZiBean.ResultBean> mList;
+    private WoDeQuanZiAdapter mWoDeQuanZiAdapter;
     private Presenter mPresenter;
     private Handler handler = new Handler();//加载刷新handler
     private int page=1;//刷新页数
     private boolean isloding;//是否加载
+    private int mUserid;
+    private String mSessionid;
 
     /**
      * 从我的Fragment  点击到我的圈子
@@ -44,6 +50,8 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_quan_zi);
         //1 初始化控件
         initView();
+        //初始化sp
+        initShareadePrefrence();
         //2 点击事件监听
         setOnClickListeners();
         //3 list  和 Adapter
@@ -56,13 +64,20 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
         setDeleteItemXlv();
     }
 
+    //初始化sp
+    private void initShareadePrefrence() {
+        //通过工具类  得到存储的userid  和  sessionid
+        mUserid = (int) MyUtils.getData(this, "userid", 0);
+        mSessionid = (String) MyUtils.getData(this, "sessionid", "");
+    }
+
     /**
      * //6 点击删除事件  接口回调
      * */
     private void setDeleteItemXlv() {
 
         //通过adapter回调自定义接口方法进行删除
-        mQuanZiAdapter.setQZOnClickListener(new QuanZiAdapter.QZOnClickListener() {
+        mWoDeQuanZiAdapter.setQZOnClickListener(new WoDeQuanZiAdapter.QZOnClickListener() {
             @Override
             public void onChanger(int id) {
                 Toast.makeText(QuanZiActivity.this,"成功删除条目"+id,Toast.LENGTH_SHORT).show();
@@ -76,8 +91,8 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
      * */
     private void initListAndAdapter() {
         mList = new ArrayList<>();
-        mQuanZiAdapter = new QuanZiAdapter(QuanZiActivity.this, mList);
-        xlvQzWdf.setAdapter(mQuanZiAdapter);
+        mWoDeQuanZiAdapter = new WoDeQuanZiAdapter(QuanZiActivity.this, mList);
+        xlvQzWdf.setAdapter(mWoDeQuanZiAdapter);
     }
 
     /**
@@ -129,7 +144,7 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
         mPresenter = new Presenter();
         mPresenter.attach(this);
         //mPresenter.getQuanZiDataP();
-        mPresenter.getQuanZiDataP(page);
+        mPresenter.getWoDeQuanZiDataP(page,mSessionid,mUserid);
     }
 
     /**
@@ -158,13 +173,18 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
      * */
     @Override
     public void QuanZi(List<QuanZiBean.ResultBean> list) {
+        //没用
+    }
+
+    @Override
+    public void WoDeQuanZi(List<WoDeQuanZiBean.ResultBean> list) {
         if(list!=null){
             if(!isloding){
                 //如果不是加载更多  就让他刷新
                 mList.clear();
             }
             mList.addAll(list);
-            mQuanZiAdapter.notifyDataSetChanged();
+            mWoDeQuanZiAdapter.notifyDataSetChanged();
         }
     }
 
@@ -174,8 +194,13 @@ public class QuanZiActivity extends AppCompatActivity implements IView {
     @Override
     public void DianZan(DianZanBean dianZanBean) {
         if(dianZanBean!=null){
-            Toast.makeText(this,""+dianZanBean.getMessage(),Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this,""+dianZanBean.getMessage(),Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void FaBu(FaBuBean faBuBean) {
+        //无用
     }
 
     @Override

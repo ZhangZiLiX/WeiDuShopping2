@@ -21,16 +21,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.baseactivity.BaseActionBar;
+import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.HeadImageBean;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.bean.UpdatePasswordBean;
 import com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwoziliao.presenter.ZiLiaoPresenter;
 import com.bwie.weidushopping.loginandzhucepage.loginpage.bean.LoginBean;
 import com.bwie.weidushopping.loginandzhucepage.loginpage.presenter.LoginPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -63,9 +70,12 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
     private EditText mEtNewPwd;
     private Button mBtnUpdatePwd;
     private SharedPreferences mIsUserNewPwd;
-    private SharedPreferences mIsonelogin;
-    private String mIsuserid;
-    private String mIsSessionId;
+    private int mUserid;
+    private String mSessionid;
+    private String mHeadpic;
+    private String mNewPwd;
+    private SharedPreferences mUpdateTouXiangSP;
+    private Bitmap mBmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,42 +98,49 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //1 如果返回的是定义的100FLAG_CAMERA_REQUEST
-        if(requestCode==FLAG_CAMERA_REQUEST){//拍照裁剪上传
-            //2 就得到照片后进行裁剪
-            intent = crop(uri);
-            //3 跳转 到裁剪
-            startActivityForResult(intent, FLAG_CROP_REQUEST);
-        }else if(requestCode == FLAG_ALUMB_REQUEST){//相册中裁剪上传
-            uri = data.getData();//从相册中返回值
-            //裁剪 方法
-            intent = crop(uri);
-            //3 跳转 到裁剪
-            startActivityForResult(intent, FLAG_CROP_REQUEST);
-        }else if(requestCode == FLAG_CROP_REQUEST){
-            // 从返回值中直接获取bitmap
-            Bitmap bmp = (Bitmap) data.getExtras().get("data");
-            simpleTouxiang.setImageBitmap(bmp);
-            //上传头像  得到Bitmap  将其存储到本地的sp中 方法
-            saveBitmapToSharedPreferences(bmp);
+        if(data!=null && !data.equals("")){
+            //1 如果返回的是定义的100FLAG_CAMERA_REQUEST
+            if(requestCode==FLAG_CAMERA_REQUEST){//拍照裁剪上传
+                //2 就得到照片后进行裁剪
+                intent = crop(uri);
+                //3 跳转 到裁剪
+                startActivityForResult(intent, FLAG_CROP_REQUEST);
+            }else if(requestCode == FLAG_ALUMB_REQUEST){//相册中裁剪上传
+                uri = data.getData();//从相册中返回值
+                //裁剪 方法
+                intent = crop(uri);
+                //3 跳转 到裁剪
+                startActivityForResult(intent, FLAG_CROP_REQUEST);
+            }else if(requestCode == FLAG_CROP_REQUEST){
+                // 从返回值中直接获取bitmap
+
+                mBmp = (Bitmap) data.getExtras().get("data");
+                simpleTouxiang.setImageBitmap(mBmp);
+                //上传头像  得到Bitmap  将其存储到本地的sp中 方法
+                saveBitmapToSharedPreferences(mBmp);
+
+            }
+        }else{
+            Toast.makeText(this,"数据为空!",Toast.LENGTH_SHORT).show();
         }
+
     }
 
     /**
      * //上传头像  得到Bitmap  将其存储到本地的sp中
      * */
     private void saveBitmapToSharedPreferences(Bitmap bmp) {
+
         //第一步:将Bitmap压缩至字节数组输出流ByteArrayOutputStream
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String imageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
-        //第三步:将String保持至SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("testSP", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("image", imageString);
-        editor.commit();
+
+        mUpdateTouXiangSP = getSharedPreferences("testSP", MODE_PRIVATE);
+        mUpdateTouXiangSP.edit().putString("image",imageString).commit();
+
         //上传头像方法
         setImgByStr(imageString,"");
     }
@@ -134,21 +151,22 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
      * */
     private void setImgByStr(String imageString, String s) {
 
-        //注意  上传头像的接口有问题
+        //在我的界面通过sp  得到存储到本地的头像
+
+        //注意
+        Uri uri = Uri.parse(mHeadpic);
+        File file = new File(uri.getPath());
+
 
         //使用p层调用post请求方法  传值
+        mZiLiaoPresenter.getHeadPostDataP(mUserid,mSessionid,file);
 
-        //在我的界面通过sp  得到存储到本地的头像
     }
 
     /**
     * //3 Presenter对象创建
     * */
     private void initPresenter() {
-        //登录的p层  初始化对象  传输密码使用的
-        mLoginPresenter = new LoginPresenter();
-        mLoginPresenter.attach(this);
-
         //资料的Presenter对象
         mZiLiaoPresenter = new ZiLiaoPresenter();
         mZiLiaoPresenter.attach(this);
@@ -162,15 +180,24 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
         mIsUserMessageSP = getSharedPreferences("isUserMessageSP", MODE_PRIVATE);//初始化登录时记住密码手机号的spd对象
         mPhone = mIsUserMessageSP.getString("isUserMessagePhone", "");//手机号
         mPassword = mIsUserMessageSP.getString("isUserMessagePassword", "");//密码
-        if(mPhone !=null&& mPassword !=null){
-            //重新调用登录P层的方法
-            mLoginPresenter.getLoginDataP(mPhone, mPassword);
+
+        //通过工具类  得到存储的userid  和  sessionid
+        mUserid = (int) MyUtils.getData(this, "userid", 0);
+        mSessionid = (String) MyUtils.getData(this, "sessionid", "");
+        mHeadpic = (String) MyUtils.getData(this, "headpic", ""); //得到用户头像路径
+
+        if(mPhone.equals("") || mPassword.equals("")){
+            //重新调用登录P层的方法  不能重新登录
+            //mLoginPresenter.getLoginDataP(mPhone, mPassword);
+            Toast.makeText(this,"请登录！",Toast.LENGTH_SHORT).show();
+        }else{
+            //赋值
+            Uri uri = Uri.parse(mHeadpic);
+            simpleTouxiang.setImageURI(uri);
+            txtUsername.setText(mPhone);
+            txtUserpassword.setText(mPassword);
         }
 
-        //从登陆几面拿到登陆后的seeeionid 他是不断变化的
-        mIsonelogin = getSharedPreferences("isonelogin", MODE_PRIVATE);
-        mIsuserid = mIsonelogin.getString("isuserid", "");
-        mIsSessionId = mIsonelogin.getString("isSessionId", ""); //得到不断变化的sessionid
     }
 
     /**
@@ -217,14 +244,14 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
 
            case R.id.btn_updatepwd://点击确认密码修改
                  //得到新密码
-               String newPwd = mEtNewPwd.getText().toString().trim();
+               mNewPwd = mEtNewPwd.getText().toString().trim();
 
-               if(newPwd==null || newPwd.equals("")){
+               if(mNewPwd ==null || mNewPwd.equals("")){
                    Toast.makeText(MyMessageActivity.this,"密码不能为空,修改密码失败!",Toast.LENGTH_SHORT).show();
                    break;
                }
                //调用网路请求工具类的put方法 进行请求
-               mZiLiaoPresenter.getUpdatePassword(mPassword,mIsuserid,mIsSessionId,newPwd);
+               mZiLiaoPresenter.getUpdatePassword(mPassword,mUserid,mSessionid, mNewPwd);
                //点击确定  界面修饰  资料框展示
                mLlUpdatePwdWDF.setVisibility(View.GONE);
                mLlZiLiaoKuangWDF.setVisibility(View.VISIBLE);
@@ -238,14 +265,7 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
      * */
     @Override
     public void LoginBean(LoginBean loginBean) {
-        if(loginBean!=null){
-            if(loginBean.getMessage().equals("登录成功")){
-                Uri uri = Uri.parse(loginBean.getResult().getHeadPic());
-                simpleTouxiang.setImageURI(uri);
-                txtUsername.setText(loginBean.getResult().getNickName());
-                txtUserpassword.setText(mPassword);//通过sp拿到的
-            }
-        }
+       //无用
     }
 
 
@@ -256,15 +276,14 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
     public void updatePassword(UpdatePasswordBean updatePasswordBean) {
         //修改密码方法
         if(updatePasswordBean!=null){
+            String message = updatePasswordBean.getMessage();
+            if(message.equals("修改成功")){
+                txtUsername.setText(mNewPwd);
+            }
             Toast.makeText(this,""+updatePasswordBean.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void failder(Exception e) {
-        //请求失败  进行提示
-        Toast.makeText(this,""+e,Toast.LENGTH_SHORT).show();
-    }
 
     /**
      * 5 上传头像设置
@@ -310,7 +329,7 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
                 dialog.dismiss();
             }
         });
-        mBuilder.setNegativeButton("相册", new DialogInterface.OnClickListener() {
+        mBuilder.setNeutralButton("相册", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //点击从相机拍照
@@ -358,6 +377,28 @@ public class MyMessageActivity extends BaseActionBar implements com.bwie.weidush
 }
 
 
+
+    /**
+     * 上传头像
+     *
+     * */
+    @Override
+    public void goHeadimageI(HeadImageBean headImageBean) {
+        String message = headImageBean.getMessage();
+        if(message.equals("上传成功")){
+            /*Intent intent = new Intent();
+            intent.putExtra("headimage",headImageBean.getHeadPath());
+            MyMessageActivity.this.finish();*/
+            MyUtils.toastShow(this,""+message);
+
+        }
+    }
+
+    @Override
+    public void failder(Exception e) {
+        //请求失败  进行提示
+        //Toast.makeText(this,"上传失败",Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * 防止内存泄漏

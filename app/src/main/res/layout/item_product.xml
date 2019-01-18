@@ -1,85 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
     >
 
-    //商品展示控件布局
-
-    //产品选框
-    <CheckBox
-        android:id="@+id/cb_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@null" />
-
-    <LinearLayout
+    //Home首页的  热销新品 adapter  item布局  下面两行是必须添加的  加载最大的布局中
+    //xmlns:app="http://schemas.android.com/apk/res-auto"
+    //xmlns:tools="http://schemas.android.com/tools"
+    //卡片式布局
+    <android.support.v7.widget.CardView
+        tools:targetApi="lollipop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_toRightOf="@+id/cb_product"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="50dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="5dp"
         >
 
-        //商品图
-        <ImageView
-            android:id="@+id/img_product"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/cb_product"
-            android:layout_margin="10dp"
-            />
-
-        <RelativeLayout
+        //android:background="@drawable/bg_circle" 画的sheap
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             >
-            //商品介绍
-            <TextView
-                android:id="@+id/txt_project_title"
+
+            //商品展示控件布局
+
+            //产品选框
+            <CheckBox
+                android:id="@+id/cb_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@null" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="#737070"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:text="介绍"
-                />
+                android:orientation="horizontal"
+                android:layout_toRightOf="@+id/cb_product"
+                android:layout_marginLeft="15dp"
+                >
 
-            //商品价格
-            <TextView
-                android:id="@+id/txt_project_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="#fd0303"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="5dp"
-                android:layout_below="@+id/txt_project_title"
-                android:text="￥0.00"
-                />
-            //加减器
-            <com.bwie.weidushopping.ourcommon.utils.AddDecreaseView
-                android:id="@+id/add_decrease"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/txt_project_title"
-                android:layout_toRightOf="@+id/txt_project_price"
-                android:layout_marginLeft="50dp"
-                ></com.bwie.weidushopping.ourcommon.utils.AddDecreaseView>
+                //商品图
+                <ImageView
+                    android:id="@+id/img_product"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/cb_product"
+                    android:layout_margin="10dp"
+                    />
 
-        </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    //商品介绍
+                    <TextView
+                        android:id="@+id/txt_project_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textColor="#737070"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="介绍"
+                        />
 
-    </LinearLayout>
+                    //商品价格
+                    <TextView
+                        android:id="@+id/txt_project_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textColor="#fd0303"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_below="@+id/txt_project_title"
+                        android:text="￥0.00"
+                        />
+                    //加减器
+                    <com.bwie.weidushopping.ourcommon.utils.AddDecreaseView
+                        android:id="@+id/add_decrease"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="60dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/txt_project_title"
+                        android:layout_toRightOf="@+id/txt_project_price"
+                        android:layout_marginLeft="50dp"
+                        ></com.bwie.weidushopping.ourcommon.utils.AddDecreaseView>
 
+                </RelativeLayout>
 
+            </LinearLayout>
 
+        </LinearLayout>
 
-
+    </android.support.v7.widget.CardView>
 
 
     <!--<LinearLayout

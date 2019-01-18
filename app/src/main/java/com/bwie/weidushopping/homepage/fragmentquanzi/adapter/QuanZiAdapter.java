@@ -28,6 +28,8 @@ import java.util.Locale;
 
 public class QuanZiAdapter extends XRecyclerView.Adapter<QuanZiAdapter.ViewHolder> {
 
+    private boolean isDianZan ;//一开始为FALSE
+
     /**
      * 1 长按删除事件  就扣定义
      * */
@@ -73,6 +75,14 @@ public class QuanZiAdapter extends XRecyclerView.Adapter<QuanZiAdapter.ViewHolde
         holder.mTxtTimeQZAdapter.setText(dateFormat.format(mList.get(position).getCreateTime()));
         //4 发布的说说
         holder.mTxtQuanShuoQZAdapter.setText(mList.get(position).getContent());
+        holder.mTxtCountQZAdapter.setText(mList.get(position).getGreatNum()+"");
+
+        //点赞图动态设置
+        if(!isDianZan){//如果没有点过赞，就加载黑色的
+            holder.mImgDianZanQZAdapter.setImageResource(R.mipmap.common_btn_prise_n_hdpi);
+        }else{
+            holder.mImgDianZanQZAdapter.setImageResource(R.mipmap.common_btn_prise_s_hdpi);
+        }
 
         //5 判断圈子说说配图  有图片  就展示  没有就隐藏控件
         if(mList.get(position).getImage()!=null){
@@ -106,9 +116,13 @@ public class QuanZiAdapter extends XRecyclerView.Adapter<QuanZiAdapter.ViewHolde
             @Override
             public void onClick(View v) {
                 if(mList!=null){
+                    //点赞标识符
+                    isDianZan = true;
                     mlistener.onChanger(mList.get(position).getCommodityId());
                     //点赞图片设置默认
                     holder.mImgDianZanQZAdapter.setImageResource(R.mipmap.common_btn_prise_s_hdpi);
+                    int count = mList.get(position).getGreatNum() + 1;
+                    holder.mTxtCountQZAdapter.setText(count+"");
                     notifyDataSetChanged();//刷新
                 }
             }
@@ -130,6 +144,7 @@ public class QuanZiAdapter extends XRecyclerView.Adapter<QuanZiAdapter.ViewHolde
         private final TextView mTxtQuanShuoQZAdapter;
         private final ImageView mImgQuanShuoTuQZAdapter;
         private final ImageView mImgDianZanQZAdapter;
+        private final TextView mTxtCountQZAdapter;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -139,6 +154,7 @@ public class QuanZiAdapter extends XRecyclerView.Adapter<QuanZiAdapter.ViewHolde
             mTxtQuanShuoQZAdapter = itemView.findViewById(R.id.txt_quanshuo_qzadapter);//圈子说说
             mImgQuanShuoTuQZAdapter = itemView.findViewById(R.id.img_quanshuotu_qzadapter);//圈子图
             mImgDianZanQZAdapter = itemView.findViewById(R.id.img_dianzan_quanziadapter);//点赞
+            mTxtCountQZAdapter = itemView.findViewById(R.id.txt_count_qzadapter);//点赞数
         }
     }
 

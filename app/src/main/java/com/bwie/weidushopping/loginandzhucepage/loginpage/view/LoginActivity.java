@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bwie.myutilsclass.MyUtils;
 import com.bwie.weidushopping.R;
 import com.bwie.weidushopping.homepage.view.HomeActivity;
 import com.bwie.weidushopping.loginandzhucepage.loginpage.bean.LoginBean;
@@ -266,6 +267,13 @@ public class LoginActivity extends BaseActionBar implements View.OnClickListener
             if(message.equals("登录成功")){//判断是否登录成功
                 //提示
                 Toast.makeText(this,""+message,Toast.LENGTH_SHORT).show();
+                //使用封装的工具类进行存储userid  和 sessionid
+                int userId = loginBean.getResult().getUserId();
+                String sessionId = loginBean.getResult().getSessionId();
+                String headPic = loginBean.getResult().getHeadPic();//头像路径
+                MyUtils.putData(this,"userid",userId);
+                MyUtils.putData(this,"sessionid",sessionId);
+                MyUtils.putData(this,"headpic",headPic);
                 //存储第一次使用并登录成功的数据
                 mIsonelogin.edit().putBoolean("isoneuserlogin",true)
                         .putString("isuserid", String.valueOf(loginBean.getResult().getUserId()))

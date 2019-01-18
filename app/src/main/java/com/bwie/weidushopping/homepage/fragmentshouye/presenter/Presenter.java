@@ -1,6 +1,7 @@
 package com.bwie.weidushopping.homepage.fragmentshouye.presenter;
 
 
+import com.bwie.weidushopping.homepage.fragmentshouye.bean.AddCar;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.BannerBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.KeySeacherBean;
 import com.bwie.weidushopping.homepage.fragmentshouye.bean.ShopBean;
@@ -11,6 +12,7 @@ import com.bwie.weidushopping.ourcommon.model.Model;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -162,7 +164,7 @@ public class Presenter {
     }
 
     //4品质生活的数据请求方法
-    public void getXiangQingDataP(int commodityId,String userId,String sessionId){
+    public void getXiangQingDataP(int commodityId,int userId,String sessionId){
         String url = "http://172.17.8.100/small/commodity/v1/findCommodityDetailsById?commodityId=";
         url = url+commodityId;
         //定义一个泛型
@@ -188,6 +190,34 @@ public class Presenter {
     }
 
 
+    //3同步购物车
+    public void getAddCarP(String sessionid,int userid,int commodityid,int count){
+        //得到数据进行map创建存储
+        HashMap<String,String> map = new HashMap<>();
+        map.put("commodityId",commodityid+"");
+        map.put("count",count+"");
+
+        //定义一个泛型
+        Type type = new TypeToken<AddCar>(){}.getType();
+        //注册  调用Post请求方式
+        //http://172.17.8.100/small/order/verify/v1/syncShoppingCart
+        //http://mobile.bwstudent.com
+        mModel.putDataM("http://mobile.bwstudent.com/small/order/verify/v1/syncShoppingCart", userid, sessionid, map, new ICallBack() {
+            @Override
+            public void Success(Object o) {
+                AddCar addCar = (AddCar) o;
+                if(addCar!=null){
+                    mIView.AddCar(addCar);
+                }
+            }
+
+            @Override
+            public void Failder(Exception e) {
+                //请求失败
+                mIView.failder(e);
+            }
+        },type);
+    }
     //解除耦合
     public void datach(){
         //判断是否为空

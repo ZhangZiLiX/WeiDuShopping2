@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bwie.weidushopping.homepage.fragmentquanzi.view.FaBuActivity"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#dad3d3"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30sp"
+            android:textColor="#f00"
+            android:text="发布圈子"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:id="@+id/txt_fabu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30sp"
+            android:textColor="#f00"
+            android:text="发布"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        >
+
+        <EditText
+            android:id="@+id/txt_commodityid"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textColor="#000"
+            android:textSize="25sp"
+            android:hint="发布第几条圈子"
+            android:layout_marginLeft="10dp"
+            />
+
+        <EditText
+            android:id="@+id/txt_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textColor="#000"
+            android:textSize="25sp"
+            android:hint="内容"
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/img_fbqz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spring_single_pic"
+        android:layout_margin="20dp"
+        />
+
+
+</LinearLayout>

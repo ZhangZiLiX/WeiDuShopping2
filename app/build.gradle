@@ -19,7 +19,7 @@ android {
         release {
 
             //打包签名 必须将下面属性的false改为true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -89,5 +89,7 @@ dependencies {
     //卡片式布局
     implementation 'com.android.support:cardview-v7:27.1.1' //gradle导入CardView
 
+    //自己的依赖库
+    implementation 'com.github.ZhangZiLiX:Utils:1.0'
 
 }

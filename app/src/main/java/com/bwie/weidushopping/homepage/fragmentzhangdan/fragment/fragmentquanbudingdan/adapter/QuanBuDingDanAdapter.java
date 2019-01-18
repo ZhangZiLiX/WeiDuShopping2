@@ -3,7 +3,9 @@ package com.bwie.weidushopping.homepage.fragmentzhangdan.fragment.fragmentquanbu
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bwie.weidushopping.R;
@@ -12,7 +14,9 @@ import com.bwie.weidushopping.homepage.fragmentzhangdan.fragment.fragmentquanbud
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * date:2018/12/17
@@ -21,6 +25,18 @@ import java.util.List;
  */
 
 public class QuanBuDingDanAdapter extends XRecyclerView.Adapter<QuanBuDingDanAdapter.ViewHolder> {
+    //3 时间转换格式
+    //将发布时间 long类型转换
+    public static final String QuanZi_FaBu_Time = "yyyy-MM-dd HH:mm:ss";
+
+    //接口回调
+    public interface onBtnClickListener{
+        void onDingDanChange(int id);
+    }
+    private onBtnClickListener mOnBtnClickListener;
+    public void setOnBtnClickListener(onBtnClickListener listener){
+        mOnBtnClickListener = listener;
+    }
 
     private Context mContext;
     private List<QuanBuDingDanBean.OrderListBean> mOrderListBeans;
@@ -41,11 +57,37 @@ public class QuanBuDingDanAdapter extends XRecyclerView.Adapter<QuanBuDingDanAda
 
         if(mOrderListBeans!=null){
             QuanBuDingDanBean.OrderListBean orderListBean = mOrderListBeans.get(0);
-            QuanBuDingDanBean.OrderListBean.DetailListBean detailListBean = orderListBean.getDetailList().get(0);
-            Glide.with(mContext).load(detailListBean.getCommodityPic()).into(holder.mSimpleXiangQingShyf);
+            final QuanBuDingDanBean.OrderListBean.DetailListBean detailListBean = orderListBean.getDetailList().get(0);
+
+            String commodityPic = detailListBean.getCommodityPic();
+            String[] split = commodityPic.split("\\|");
+
+            Glide.with(mContext).load(split[0]).into(holder.mImagXiangQingShyf);
             holder.mTxtTitleXiangQingShyf.setText(detailListBean.getCommodityName());
             holder.mTxtJieShaoXiangQingShyf.setText(orderListBean.getExpressCompName());
-            holder.mTxtPriceXiangQingShyf.setText(detailListBean.getCommodityPrice());
+            holder.mTxtPriceXiangQingShyf.setText(detailListBean.getCommodityPrice()+"");
+            holder.mTxtNumXiangQingShy.setText(detailListBean.getCommodityCount()+"");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(QuanZi_FaBu_Time, Locale.getDefault());
+            holder.mTxtTimeShyf.setText(dateFormat.format(detailListBean.getOrderDetailId()));
+
+
+            //点击取消  和  确认订单的回调
+            holder.mTxtCancleShyf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext,"取消订单成功",Toast.LENGTH_SHORT).show();
+                   // mOnBtnClickListener.onDingDanChange(detailListBean.getOrderDetailId());
+                }
+            });
+            //确认订单的回调
+            holder.mTxtYesShyf.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext,"请去待收货页面进行确认订单",Toast.LENGTH_SHORT).show();
+                   // mOnBtnClickListener.onDingDanChange(detailListBean.getOrderDetailId());
+                }
+            });
+
         }
 
     }
@@ -57,17 +99,27 @@ public class QuanBuDingDanAdapter extends XRecyclerView.Adapter<QuanBuDingDanAda
 
     class ViewHolder extends XRecyclerView.ViewHolder {
 
-        private final SimpleDraweeView mSimpleXiangQingShyf;
+        private final ImageView mImagXiangQingShyf;
         private final TextView mTxtTitleXiangQingShyf;
         private final TextView mTxtJieShaoXiangQingShyf;
         private final TextView mTxtPriceXiangQingShyf;
+        private final TextView mTxtTimeShyf;
+        private final TextView mTxtNumXiangQingShy;
+        private final TextView mTxtCancleShyf;
+        private final TextView mTxtYesShyf;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mSimpleXiangQingShyf = itemView.findViewById(R.id.simple_xiangqing_shyf);
+            mTxtTimeShyf = itemView.findViewById(R.id.txt_time_shyf);//时间
+
+            mImagXiangQingShyf = itemView.findViewById(R.id.img_xiangqing_shyf);
             mTxtTitleXiangQingShyf = itemView.findViewById(R.id.txt_title_xiangqing_shyf);
             mTxtJieShaoXiangQingShyf = itemView.findViewById(R.id.txt_jieshao_xiangqing_shyf);
             mTxtPriceXiangQingShyf = itemView.findViewById(R.id.txt_price_xiangqing_shyf);
+
+            mTxtNumXiangQingShy = itemView.findViewById(R.id.txt_num_xiangqing_shyf);//数量
+            mTxtCancleShyf = itemView.findViewById(R.id.txt_cancle_shyf);//取消订单
+            mTxtYesShyf = itemView.findViewById(R.id.txt_yes_shyf);//确认订单
         }
     }
 

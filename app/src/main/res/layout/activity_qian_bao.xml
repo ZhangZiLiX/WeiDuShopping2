@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodeqianbao.QianBaoActivity">
+    tools:context="com.bwie.weidushopping.homepage.fragmentwode.allsubclasses.btnwodeqianbao.viewqianbao.QianBaoActivity">
 
     //我的Fragment界面  我的钱包
 

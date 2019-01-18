@@ -35,7 +35,9 @@ public class LoginPresenter {
     //登录的方法
     //http://172.17.8.100/small/user/v1/login?phone=13833935348&pwd=123456
     public void getLoginDataP(String phone,String pwd){
-        String url = "http://172.17.8.100/small/user/v1/login";
+        //String url = "http://172.17.8.100/small/user/v1/login";
+        //http://mobile.bwstudent.com
+        String url = "http://mobile.bwstudent.com/small/user/v1/login";
         //得到数据进行map创建存储
         HashMap<String,String> map = new HashMap<>();
         map.put("phone",phone);
